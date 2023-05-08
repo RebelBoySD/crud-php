@@ -44,7 +44,7 @@ $user_data = $result->fetch_assoc();
 <body>
     <header>
         <img src="assets/icons8-lock-50 (1).png">
-        <h1>Keep Safe</h1>
+        <h1><a href="index.php">Keep Safe</a></h1>
     </header>
     <article>
         <div class="layout">

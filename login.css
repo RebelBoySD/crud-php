@@ -23,6 +23,21 @@ header h1 {
   color: white;
 }
 
+header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header a:hover {
+  text-decoration: none;
+  color: inherit
+}
+
+header a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
 .layout {
   display: flex;
   min-height: 100vh;

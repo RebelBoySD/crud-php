@@ -54,7 +54,7 @@ if (isset($_POST['Create'])) {
 <body>
     <header>
         <img src="assets/icons8-lock-50 (1).png">
-        <h1>Keep Safe</h1>
+        <h1><a href="index.php">Keep Safe</a></h1>
     </header>
     <article>
         <div class="topSection">
@@ -79,7 +79,7 @@ if (isset($_POST['Create'])) {
                         <input type="radio" name="gender" value="female">
                         <label for="Female" class="notreq">Female</label>
                     </div>
-                    <label for="address">Address</label><input type="text" name="address">
+                    <label for="address">Address</label><textarea name="address"></textarea>
                     <label for="city">City</label><input type="text" name="city">
                     <label for="state">State</label>
                     <select name="state">

@@ -34,7 +34,7 @@ if (isset($_POST['Update'])) {
 <body>
     <header>
         <img src="assets/icons8-lock-50 (1).png">
-        <h1>Keep Safe</h1>
+        <h1><a href="index.php">Keep Safe</a></h1>
     </header>
     <?php
 
@@ -86,8 +86,7 @@ if (isset($_POST['Update'])) {
                         <input type="radio" name="gender" value="Female" <?php echo $isFemale; ?>>
                         <label for="Female">Female</label>
                     </div>
-                    <label for="address">Address</label><input type="text" name="address"
-                        value="<?php echo $user_data['address']; ?>">
+                    <label for="address">Address</label><textarea name="address"><?php echo $user_data['address']; ?></textarea>
                     <label for="city">City</label><input type="text" name="city"
                         value="<?php echo $user_data['city']; ?>">
                     <label for="state">State</label>

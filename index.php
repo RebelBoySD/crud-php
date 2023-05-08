@@ -41,7 +41,7 @@ $result = $conn->query($sql);
 <body>
 	<header>
 		<img src="assets/icons8-lock-50 (1).png">
-		<h1>Keep Safe</h1>
+		<h1><a href="index.php">Keep Safe</a></h1>
 	</header>
 	<article>
 		<div class="topsection">
@@ -66,8 +66,6 @@ $result = $conn->query($sql);
 				<th>City</th>
 				<th>State</th>
 				<th>Newsletter</th>
-				<th>Creation Time</th>
-				<th>Modification Time</th>
 				<th>Edit Details</th>
 			</tr>
 			<?php
@@ -85,8 +83,6 @@ $result = $conn->query($sql);
 				echo "<td>" . $user_data['city'] . "</td>";
 				echo "<td>" . $user_data['state'] . "</td>";
 				echo "<td>" . $newsletter . "</td>";
-				echo "<td>" . $user_data['created_at'] . "</td>";
-				echo "<td>" . $user_data['modified_at'] . "</td>";
 				echo "<td><a href='update.php?id=" . $user_data['id'] . "'><button id='editbutton'>Edit</button></a><a href='delete.php?id=" . $user_data['id'] . "'><button id='deletebutton'>Delete</button></a></td>";
 				echo "</tr>";
 			}
@@ -94,16 +90,18 @@ $result = $conn->query($sql);
 		</table>
 		<div class="pagination">
 			<?php
-			echo "<a href='index.php?page=$previouspage'><button>&laquo;</button></a>";
-			for ($i = 1; $i <= $lastpage; $i++) {
-				if ($i == $currentpage) {
-					echo '<a href="index.php?page=' . $currentpage . '"><button class="active">' . $i . '</button></a>';
-				} else {
-					echo "<a href='index.php?page=$i'><button>" . $i . "</button></a>";
-				}
-			}
 			if (empty($searchedText)) {
+				echo "<a href='index.php?page=$previouspage'><button>&laquo;</button></a>";
+				for ($i = 1; $i <= $lastpage; $i++) {
+					if ($i == $currentpage) {
+						echo '<a href="index.php?page=' . $currentpage . '"><button class="active">' . $i . '</button></a>';
+					} else {
+						echo "<a href='index.php?page=$i'><button>" . $i . "</button></a>";
+					}
+				}
 				echo "<a href='index.php?page=$nextpage'><button>&raquo;</button></a>";
+			}else{
+				echo "<a href='index.php'><button id='backButton'>Back</button></a>";
 			}
 			?>
 		</div>
