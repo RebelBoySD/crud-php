@@ -128,6 +128,10 @@ form select {
   margin-left: 10px;
 }
 
+form p {
+  margin-left: 10px;
+}
+
 form input[type="checkbox"] {
   height: 15px;
   width: 15px;

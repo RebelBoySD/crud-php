@@ -3,6 +3,11 @@
 include_once("config.php");
 require("auth_session.php");
 
+function email_validation($str)
+{
+    return (!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $str)) ? FALSE : TRUE;
+}
+
 if (isset($_POST['Update'])) {
     $id = $_POST['id'];
     $name = $_POST['name'];
@@ -18,9 +23,17 @@ if (isset($_POST['Update'])) {
         $newsletter = 0;
     }
 
-    $sql = "UPDATE employees SET name='$name',email='$email',gender='$gender',address='$address',city='$city',state='$state',newsletter='$newsletter' WHERE id=$id;";
-    $conn->query($sql);
-    header("Location:index.php");
+    if (empty($name)) {
+        $message1 = "Please enter the name";
+    } else if (empty($email) || !email_validation($email)) {
+        $message2 = "Please enter the email";
+    } else if (empty($gender)) {
+        $message3 = "Please select the gender";
+    } else {
+        $sql = "UPDATE employees SET name='$name',email='$email',gender='$gender',address='$address',city='$city',state='$state',newsletter='$newsletter' WHERE id=$id;";
+        $conn->query($sql);
+        header("Location:index.php");
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -78,15 +91,25 @@ if (isset($_POST['Update'])) {
                 <form name="edit_page" method="post" action="update.php">
                     <label for="name">Name</label><input type="text" name="name"
                         value="<?php echo $user_data['name']; ?>" required>
+                    <?php if (!empty($message)) {
+                        echo "<p>" . $message1 . "</p>";
+                    } ?>
                     <label for="email">Email</label><input type="text" name="email"
                         value="<?php echo $user_data['email']; ?>" required>
+                    <?php if (!empty($message)) {
+                        echo "<p>" . $message2 . "</p>";
+                    } ?>
                     <div class="same-line"><label for="gender">Gender</label>
                         <input type="radio" name="gender" value="Male" <?php echo $isMale; ?>>
                         <label for="Male">Male</label>
                         <input type="radio" name="gender" value="Female" <?php echo $isFemale; ?>>
                         <label for="Female">Female</label>
                     </div>
-                    <label for="address">Address</label><textarea name="address"><?php echo $user_data['address']; ?></textarea>
+                    <?php if (!empty($message)) {
+                        echo "<p>" . $message3 . "</p>";
+                    } ?>
+                    <label for="address">Address</label><textarea
+                        name="address"><?php echo $user_data['address']; ?></textarea>
                     <label for="city">City</label><input type="text" name="city"
                         value="<?php echo $user_data['city']; ?>">
                     <label for="state">State</label>

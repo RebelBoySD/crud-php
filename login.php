@@ -18,7 +18,7 @@ if (isset($_POST['Login'])) {
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
-    if ($user_data['email'] == $email && $user_data['password'] == $password) {
+    if ($user_data['email'] === $email && $user_data['password'] === $password) {
         session_start();
         $_SESSION["LoggedIn"] = "yes";
         header("Location: index.php");
@@ -58,7 +58,7 @@ if (isset($_POST['Login'])) {
                 </div>
                 <form action="login.php" method="post" name="login_page">
                     <label for="email">Email</label>
-                    <input type="text" name="email" id="email" required>
+                    <input type="email" name="email" id="email" required>
                     <?php if(!empty($message1)){echo "<p>" . $message1 . "</p>";} ?>
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" required>

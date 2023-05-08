@@ -4,6 +4,26 @@
 // error_reporting(E_ALL);
 
 include_once("config.php");
+
+function email_validation($str)
+{
+    return (!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $str)) ? FALSE : TRUE;
+}
+
+function password_validation($str)
+{
+    return (strlen($str) <= 8) ? TRUE : FALSE;
+}
+
+function checkfields($str)
+{
+    if (!empty($str)) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
 if (isset($_POST['Signup'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -14,14 +34,21 @@ if (isset($_POST['Signup'])) {
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
-    if (empty($userdata)) {
+    if (empty($userdata) && email_validation($email) && password_validation($password) && checkfields($answer)) {
 
-        $sql = "INSERT INTO employees(name,password,question,answer,created_at) VALUES('$email','$password','$question','$answer',NOW());";
+
+        $sql = "INSERT INTO employees(email,password,question,answer,created_at) VALUES('$email','$password','$question','$answer',NOW());";
         $conn->query($sql);
 
         header("Location: login.php");
+    } else if (!empty($userdata)) {
+        $message1 = "Account already exists";
+    } else if (!email_validation($email)) {
+        $message2 = "Enter a valid email address";
+    } else if (!password_validation($password)) {
+        $message3 = "Password should be longer than 8 characters";
     } else {
-        $message = "Account already exists";
+        $message = "Please fill all the required fields";
     }
 }
 ?>
@@ -52,7 +79,9 @@ if (isset($_POST['Signup'])) {
                 <form action="registation.php" method="post" name="signup_page">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" required>
-                    <?php if(!empty($message)){echo "<p>" . $message . "</p>";} ?>
+                    <?php if (!empty($message)) {
+                        echo "<p>" . $message . "</p>";
+                    } ?>
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" required>
                     <label for="username">Question</label>

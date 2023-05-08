@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 include_once("config.php");
 
@@ -16,7 +16,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
         $sql = "SELECT answer from employees WHERE id='$id';";
         $result = $conn->query($sql);
         $user_data = $result->fetch_assoc();
-        if ($user_data['answer'] == $answer) {
+        if ($user_data['answer'] === $answer) {
             $sql = "UPDATE employees SET password = '$password' WHERE id ='$id';";
             $conn->query($sql);
             header("Location: login.php");

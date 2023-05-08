@@ -44,7 +44,7 @@ if (isset($_POST['Find'])) {
                 </div>
                 <form action="forgopass.php" method="post" name="forgopass_page">
                     <label for="email">Email</label>
-                    <input type="text" name="email" id="email" required>
+                    <input type="email" name="email" id="email" required>
                     <?php if(!empty($message)){echo "<p>" . $message . "</p>";} ?>
                     <input type="submit" name="Find" value="Find">
                     <a href="registation.php" id="reglink">Sign Up</a>

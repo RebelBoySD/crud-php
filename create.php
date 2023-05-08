@@ -1,11 +1,16 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 include_once("config.php");
 require("auth_session.php");
+
+function email_validation($str)
+{
+    return (!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $str)) ? FALSE : TRUE;
+}
 
 if (isset($_POST['Create'])) {
     $name = $_POST['name'];
@@ -21,19 +26,17 @@ if (isset($_POST['Create'])) {
         $newsletter = 0;
     }
 
-    // var_dump($gender);
-    // var_dump($newsletter);
-    // die();
     $sql = "SELECT email FROM employees WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
-    // var_dump($name);
-    // var_dump($user_data['email']);
-    // var_dump($email);
-    // die();
     if ($user_data['email'] == $email) {
         $message = "No email address can be used twice";
-
+    } else if (empty($name)) {
+        $message1 = "Please enter the name";
+    } else if (empty($email) || !email_validation($email)) {
+        $message2 = "Please enter a valid email";
+    } else if (empty($gender)) {
+        $message3 = "Please select the gender";
     } else {
         $sql = "INSERT INTO employees(name,email,gender,address,city,state,newsletter,created_at) VALUES('$name','$email','$gender','$address','$city','$state','$newsletter',NOW());";
         $conn->query($sql);
@@ -68,9 +71,15 @@ if (isset($_POST['Create'])) {
             <div class="form">
                 <form action="create.php" name="create_page" method="post">
                     <label for="name">Name</label><input type="text" name="name" required>
+                    <?php if (!empty($message1)) {
+                        echo "<p>" . $message1 . "</p>";
+                    } ?>
                     <label for="email">Email</label><input type="text" name="email" required>
                     <?php if (!empty($message)) {
                         echo "<p>" . $message . "</p>";
+                    } ?>
+                    <?php if (!empty($message2)) {
+                        echo "<p>" . $message2 . "</p>";
                     } ?>
                     <div class="same-line">
                         <label for="gender">Gender</label>
@@ -79,6 +88,9 @@ if (isset($_POST['Create'])) {
                         <input type="radio" name="gender" value="female">
                         <label for="Female" class="notreq">Female</label>
                     </div>
+                    <?php if (!empty($message3)) {
+                        echo "<p>" . $message3 . "</p>";
+                    } ?>
                     <label for="address">Address</label><textarea name="address"></textarea>
                     <label for="city">City</label><input type="text" name="city">
                     <label for="state">State</label>
