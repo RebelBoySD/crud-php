@@ -1,0 +1,212 @@
+body {
+  background-color: #fff;
+  margin: 0;
+}
+
+h1 {
+  color: black;
+  display: flex;
+  justify-content: center;
+  margin-left: 15px;
+}
+
+button {
+  background-color: green;
+  padding: 10px 15px;
+  margin: 10px;
+  border-radius: 4px;
+  color: white;
+  border: none;
+}
+
+.top-components {
+  display: flex;
+  align-items: center;
+}
+
+.topsection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#logoutButton {
+  background-color: red;
+}
+
+#editbutton {
+  background-color: orange;
+}
+
+#deletebutton {
+  background-color: darkred;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 6px;
+}
+
+tr {
+  background-color: rgba(58, 53, 65, 0.04);
+  font-family: Inter, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: inherit;
+  display: table-row;
+  vertical-align: middle;
+  outline: 0px;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(58, 53, 65, 0.04);
+}
+
+tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+tr:hover {
+  background-color: grey;
+  cursor: pointer;
+}
+
+th {
+  text-transform: uppercase;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.13px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0);
+  padding: 16px;
+}
+
+td {
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+  font-size: 14px;
+  letter-spacing: 0.25px;
+  color: rgba(58, 53, 65, 0.68);
+  font-family: Inter, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: 400;
+  display: table-cell;
+  vertical-align: inherit;
+  text-align: center;
+  padding: 16px;
+  border-bottom: 1px solid rgba(58, 53, 65, 0.12);
+}
+
+form {
+  color: #555;
+  display: flex;
+  padding: 2px;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+input[type="search"] {
+  border: none;
+  background: transparent;
+  margin: 0;
+  padding: 7px 8px;
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  border: 1px solid transparent;
+  border-radius: inherit;
+}
+
+input[type="search"]::placeholder {
+  color: #fff;
+}
+
+button[type="submit"] {
+  text-indent: -999px;
+  overflow: hidden;
+  width: 40px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background: transparent
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")
+    no-repeat center;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+button[type="submit"]:hover {
+  opacity: 1;
+}
+
+button[type="submit"]:focus,
+input[type="search"]:focus {
+  box-shadow: 0 0 3px 0 #1183d6;
+  border-color: #1183d6;
+  cursor: pointer;
+  outline: none;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.pagination button .active{
+  background-color: white;
+  color: black;
+}
+
+.pagination button {
+  background-color: black;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.pagination button:hover:not(.active) {
+  background-color: #ddd;
+}
+
+header {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header h1{
+  color: white;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+footer p {
+  margin-top: -5px;
+}
+
+.active{
+  background-color: wheat;
+  color: black;
+}
