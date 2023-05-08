@@ -79,11 +79,17 @@ if (isset($_POST['Signup'])) {
                 <form action="registation.php" method="post" name="signup_page">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" required>
-                    <?php if (!empty($message)) {
-                        echo "<p>" . $message . "</p>";
+                    <?php if (!empty($message1)) {
+                        echo "<p>" . $message1 . "</p>";
+                    } ?>
+                    <?php if (!empty($message2)) {
+                        echo "<p>" . $message2 . "</p>";
                     } ?>
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" required>
+                    <?php if (!empty($message3)) {
+                        echo "<p>" . $message3 . "</p>";
+                    } ?>
                     <label for="username">Question</label>
                     <select name="question" required>
                         <option>Your Nickname</option>
@@ -92,6 +98,9 @@ if (isset($_POST['Signup'])) {
                     </select>
                     <label for="answer">Answer</label>
                     <input type="text" name="answer" id="name" required>
+                    <?php if (!empty($message)) {
+                        echo "<p>" . $message . "</p>";
+                    } ?>
                     <input type="submit" name="Signup" value="Sign Up">
                     <a href="login.php" id="reglink">Login into your account</a>
                 </form>
