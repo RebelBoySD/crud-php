@@ -55,7 +55,7 @@ if (isset($_POST['Find'])) {
     </article>
     <footer>
         <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdown</p>
+        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
         <p>Copyright &#169; 2023</p>
     </footer>
 </body>

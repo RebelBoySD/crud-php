@@ -7,22 +7,21 @@ include_once("config.php");
 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: forgopass.php");
-} else {
-    if (isset($_POST['Reset'])) {
-        $id = $_POST['id'];
-        $password = $_POST['password'];
-        $answer = $_POST['answer'];
+}
+if (isset($_POST['Reset'])) {
+    $id = $_POST['id'];
+    $password = $_POST['password'];
+    $answer = $_POST['answer'];
 
-        $sql = "SELECT answer from employees WHERE id='$id';";
-        $result = $conn->query($sql);
-        $user_data = $result->fetch_assoc();
-        if ($user_data['answer'] === $answer) {
-            $sql = "UPDATE employees SET password = '$password' WHERE id ='$id';";
-            $conn->query($sql);
-            header("Location: login.php");
-        } else {
-            header("Location: resetpass.php");
-        }
+    $sql = "SELECT answer from employees WHERE id='$id';";
+    $result = $conn->query($sql);
+    $user_data = $result->fetch_assoc();
+    if ($user_data['answer'] === $answer) {
+        $sql = "UPDATE employees SET password = '$password' WHERE id ='$id';";
+        $conn->query($sql);
+        header("Location: login.php");
+    } else {
+        header("Location: resetpass.php");
     }
 }
 ?>
@@ -75,7 +74,7 @@ $user_data = $result->fetch_assoc();
     </article>
     <footer>
         <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdown</p>
+        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
         <p>Copyright &#169; 2023</p>
     </footer>
 </body>

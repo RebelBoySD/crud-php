@@ -63,8 +63,8 @@ if (isset($_POST['Create'])) {
         <div class="topSection">
             <h1>Add Details</h1>
             <div class="top-components">
-                <a href="logout.php"><button id="logoutButton">Log out</button></a>
-                <a href="index.php"><button id="backButton">Back</button></a>
+                <a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
+                <a href="index.php"><img src="assets/icons8-go-back-24.png"></a>
             </div>
         </div>
         <div class="layout">
@@ -74,7 +74,7 @@ if (isset($_POST['Create'])) {
                     <?php if (!empty($message1)) {
                         echo "<p>" . $message1 . "</p>";
                     } ?>
-                    <label for="email">Email</label><input type="text" name="email" required>
+                    <label for="email">Email</label><input type="email" name="email" required>
                     <?php if (!empty($message)) {
                         echo "<p>" . $message . "</p>";
                     } ?>
@@ -111,7 +111,7 @@ if (isset($_POST['Create'])) {
     </article>
     <footer>
         <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdown</p>
+        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
         <p>Copyright &#169; 2023</p>
     </footer>
 </body>

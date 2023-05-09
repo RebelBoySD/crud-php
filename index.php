@@ -5,7 +5,7 @@ require("auth_session.php");
 
 if (isset($_POST['Search'])) {
 	$searchedText = $_POST['searchedText'];
-	$sql = "SELECT * from employees WHERE name LIKE '%$searchedText%';";
+	$sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees WHERE name LIKE '%$searchedText%' OR email LIKE '%$searchedText%' OR gender LIKE '%$searchedText%' OR address LIKE '%$searchedText%' OR city LIKE '%$searchedText%' OR state LIKE '%$searchedText%';";
 } else {
 	$sql = "SELECT COUNT(*) FROM employees";
 	$result = $conn->query($sql);
@@ -25,7 +25,7 @@ if (isset($_POST['Search'])) {
 	$previouspage = ($currentpage > 1) ? ($currentpage - 1) : $currentpage;
 	$nextpage = ($currentpage == $lastpage) ? $currentpage : ($currentpage + 1);
 	$lastentry = ($currentpage - 1) * $entriesperpage;
-	$sql = "SELECT * from employees ORDER BY id DESC LIMIT $entriesperpage OFFSET $lastentry";
+	$sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees ORDER BY modified_at DESC LIMIT $entriesperpage OFFSET $lastentry";
 }
 $result = $conn->query($sql);
 ?>
@@ -35,7 +35,7 @@ $result = $conn->query($sql);
 
 <head>
 	<title>Employees Details</title>
-	<link rel="stylesheet" href="table.css" />
+	<link rel="stylesheet" href="tables.css" />
 </head>
 
 <body>
@@ -53,8 +53,8 @@ $result = $conn->query($sql);
 						<button type="submit" name="Search">Search</button>
 					</form>
 				</div>
-				<a href="create.php"><button>Add</button></a>
-				<a href="logout.php"><button id="logoutButton">Log out</button></a>
+				<a href="create.php"><img src="assets/icons8-add-50.png"></a>
+				<a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
 			</div>
 		</div>
 		<table>
@@ -83,7 +83,7 @@ $result = $conn->query($sql);
 				echo "<td>" . $user_data['city'] . "</td>";
 				echo "<td>" . $user_data['state'] . "</td>";
 				echo "<td>" . $newsletter . "</td>";
-				echo "<td><a href='update.php?id=" . $user_data['id'] . "'><button id='editbutton'>Edit</button></a><a href='delete.php?id=" . $user_data['id'] . "'><button id='deletebutton'>Delete</button></a></td>";
+				echo "<td><a href='update.php?id=" . $user_data['id'] . "'><img src='assets/icons8-edit-30.png'></a><a href='delete.php?id=" . $user_data['id'] . "'><img src='assets/icons8-delete-24.png'></a></td>";
 				echo "</tr>";
 			}
 			?>
@@ -108,7 +108,7 @@ $result = $conn->query($sql);
 	</article>
 	<footer>
 		<h3>Address</h3>
-		<p>#31, Oxford Street, London East, Main City, London, United Kingdown</p>
+		<p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
 		<p>Copyright &#169; 2023</p>
 	</footer>
 </body>

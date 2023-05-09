@@ -1,5 +1,9 @@
 <?php
 
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
 include_once("config.php");
 require("auth_session.php");
 
@@ -23,6 +27,10 @@ if (isset($_POST['Update'])) {
         $newsletter = 0;
     }
 
+    $sql = "SELECT email FROM employees WHERE email='$email';";
+    $result = $conn->query($sql);
+    $user_data = $result->fetch_assoc();
+    
     if (empty($name)) {
         $message1 = "Please enter the name";
     } else if (empty($email) || !email_validation($email)) {
@@ -40,7 +48,7 @@ if (isset($_POST['Update'])) {
 <html>
 
 <head>
-    <title>Create Page</title>
+    <title>Edit Details</title>
     <link rel="stylesheet" href="form.css">
 </head>
 
@@ -51,10 +59,8 @@ if (isset($_POST['Update'])) {
     </header>
     <?php
 
-    include_once("config.php");
-
-    $id = $_GET['id'];
-    $sql = "SELECT * from employees WHERE id = $id";
+    $id = $_REQUEST['id'];
+    $sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees WHERE id = $id";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
@@ -82,8 +88,8 @@ if (isset($_POST['Update'])) {
         <div class="topSection">
             <h1>Edit Details</h1>
             <div class="top-components">
-                <a href="logout.php"><button id="logoutButton">Log out</button></a>
-                <a href="index.php"><button id="backButton">Back</button></a>
+                <a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
+                <a href="index.php"><img src="assets/icons8-go-back-24.png"></a>
             </div>
         </div>
         <div class="layout">
@@ -91,12 +97,12 @@ if (isset($_POST['Update'])) {
                 <form name="edit_page" method="post" action="update.php">
                     <label for="name">Name</label><input type="text" name="name"
                         value="<?php echo $user_data['name']; ?>" required>
-                    <?php if (!empty($message)) {
+                    <?php if (!empty($message1)) {
                         echo "<p>" . $message1 . "</p>";
                     } ?>
-                    <label for="email">Email</label><input type="text" name="email"
+                    <label for="email">Email</label><input type="email" name="email"
                         value="<?php echo $user_data['email']; ?>" required>
-                    <?php if (!empty($message)) {
+                    <?php if (!empty($message2)) {
                         echo "<p>" . $message2 . "</p>";
                     } ?>
                     <div class="same-line"><label for="gender">Gender</label>
@@ -105,7 +111,7 @@ if (isset($_POST['Update'])) {
                         <input type="radio" name="gender" value="Female" <?php echo $isFemale; ?>>
                         <label for="Female">Female</label>
                     </div>
-                    <?php if (!empty($message)) {
+                    <?php if (!empty($message3)) {
                         echo "<p>" . $message3 . "</p>";
                     } ?>
                     <label for="address">Address</label><textarea
@@ -131,7 +137,7 @@ if (isset($_POST['Update'])) {
     </article>
     <footer>
         <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdown</p>
+        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
         <p>Copyright &#169; 2023</p>
     </footer>
 </body>

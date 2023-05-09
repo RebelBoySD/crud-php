@@ -26,15 +26,6 @@ header a:visited {
   color: inherit;
 }
 
-button {
-  background-color: green;
-  padding: 10px 15px;
-  margin: 10px;
-  border-radius: 4px;
-  color: white;
-  border: none;
-}
-
 .top-components {
   display: flex;
   align-items: center;
@@ -44,18 +35,6 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-#logoutButton {
-  background-color: red;
-}
-
-#editbutton {
-  background-color: orange;
-}
-
-#deletebutton {
-  background-color: darkred;
 }
 
 table {
@@ -107,7 +86,6 @@ td {
   font-size: 14px;
   letter-spacing: 0.25px;
   color: rgba(58, 53, 65, 0.68);
-  font-family: ;
   font-weight: 400;
   display: table-cell;
   vertical-align: inherit;
@@ -172,10 +150,6 @@ input[type="search"]:focus {
   display: inline-block;
 }
 
-.pagination button .active{
-  background-color: white;
-  color: black;
-}
 
 .pagination button {
   background-color: black;
@@ -183,6 +157,13 @@ input[type="search"]:focus {
   padding: 8px 16px;
   text-decoration: none;
   border-radius: 5px;
+  margin: 10px;
+}
+
+.pagination  .active{
+  border: 1px solid black;
+  background-color: white;
+  color: black;
 }
 
 .pagination button:hover:not(.active) {
@@ -217,11 +198,21 @@ footer p {
   margin-top: -5px;
 }
 
-.active{
-  background-color: wheat;
-  color: black;
-}
-
 article {
   min-height: 80%;
+}
+
+article img{
+  height: 24px;
+  width: 24px;
+  margin: 15px;
+}
+
+.top-components img{
+  height: 30px;
+  width: 30px;
+}
+
+.top-components button img{
+  margin: 0;
 }
