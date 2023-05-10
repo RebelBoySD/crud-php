@@ -30,7 +30,7 @@ if (isset($_POST['Update'])) {
     $sql = "SELECT email FROM employees WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
-    
+
     if (empty($name)) {
         $message1 = "Please enter the name";
     } else if (empty($email) || !email_validation($email)) {
@@ -54,8 +54,14 @@ if (isset($_POST['Update'])) {
 
 <body>
     <header>
-        <img src="assets/icons8-lock-50 (1).png">
-        <h1><a href="index.php">Keep Safe</a></h1>
+        <div class="logo">
+            <img src="assets/icons8-lock-50 (1).png">
+            <h1><a href="index.php">Keep Safe</a></h1>
+        </div>
+        <div class="logoButton">
+            <!-- <a href="account.php"><img src="assets/icons8-male-user-96.png"></a> -->
+            <a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
+        </div>
     </header>
     <?php
 
@@ -88,8 +94,7 @@ if (isset($_POST['Update'])) {
         <div class="topSection">
             <h1>Edit Details</h1>
             <div class="top-components">
-                <a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
-                <a href="index.php"><img src="assets/icons8-go-back-24.png"></a>
+            <a href="index.php"><button id="backButton">Back</button></a>
             </div>
         </div>
         <div class="layout">

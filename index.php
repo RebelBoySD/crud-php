@@ -1,13 +1,26 @@
 <?php
 
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
 include_once("config.php");
 require("auth_session.php");
 
 if (isset($_POST['Search'])) {
 	$searchedText = $_POST['searchedText'];
-	$sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees WHERE name LIKE '%$searchedText%' OR email LIKE '%$searchedText%' OR gender LIKE '%$searchedText%' OR address LIKE '%$searchedText%' OR city LIKE '%$searchedText%' OR state LIKE '%$searchedText%';";
+	if ($searchedText == "") {
+		$searchflag = 1;
+	} else {
+		$sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees WHERE name LIKE '%$searchedText%' OR email LIKE '%$searchedText%' OR gender LIKE '%$searchedText%' OR address LIKE '%$searchedText%' OR city LIKE '%$searchedText%' OR state LIKE '%$searchedText%';";
+		$result = $conn->query($sql);
+		$user_data = $result->fetch_assoc();
+		if(empty($user_data)){
+			$searchflag = 1;
+		}
+	}
 } else {
-	$sql = "SELECT COUNT(*) FROM employees";
+	$sql = "SELECT COUNT(*) FROM employees WHERE name IS NOT NULL";
 	$result = $conn->query($sql);
 	$user_data = $result->fetch_assoc();
 	$entries = $user_data["COUNT(*)"];
@@ -26,8 +39,8 @@ if (isset($_POST['Search'])) {
 	$nextpage = ($currentpage == $lastpage) ? $currentpage : ($currentpage + 1);
 	$lastentry = ($currentpage - 1) * $entriesperpage;
 	$sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees ORDER BY modified_at DESC LIMIT $entriesperpage OFFSET $lastentry";
+	$result = $conn->query($sql);
 }
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -40,8 +53,14 @@ $result = $conn->query($sql);
 
 <body>
 	<header>
-		<img src="assets/icons8-lock-50 (1).png">
-		<h1><a href="index.php">Keep Safe</a></h1>
+		<div class="logo">
+			<img src="assets/icons8-lock-50 (1).png">
+			<h1><a href="index.php">Keep Safe</a></h1>
+		</div>
+		<div class="logoButton">
+			<!-- <a href="account.php"><img src="assets/icons8-male-user-96.png"></a> -->
+			<a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
+		</div>
 	</header>
 	<article>
 		<div class="topsection">
@@ -53,11 +72,12 @@ $result = $conn->query($sql);
 						<button type="submit" name="Search">Search</button>
 					</form>
 				</div>
-				<a href="create.php"><img src="assets/icons8-add-50.png"></a>
-				<a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
+				<a href="create.php"><button id="addButton">Add</button></a>
 			</div>
 		</div>
-		<table>
+		<?php
+			if (empty($searchflag)) {
+		echo "<table>
 			<tr>
 				<th>Name</th>
 				<th>Email</th>
@@ -66,31 +86,39 @@ $result = $conn->query($sql);
 				<th>City</th>
 				<th>State</th>
 				<th>Newsletter</th>
-				<th>Edit Details</th>
-			</tr>
-			<?php
-			while ($user_data = $result->fetch_assoc()) {
-				if ($user_data['newsletter'] == 1) {
-					$newsletter = "Yes";
-				} else {
-					$newsletter = "No";
+				<th>Action</th>
+			</tr>";
+				while ($user_data = $result->fetch_assoc()) {
+					if ($user_data['newsletter'] == 1) {
+						$newsletter = "Yes";
+					} else {
+						$newsletter = "No";
+					}
+					if(empty($user_data['name'])){
+						continue;
+					}
+					echo "<tr>";
+					echo "<td>" . $user_data['name'] . "</td>";
+					echo "<td>" . $user_data['email'] . "</td>";
+					echo "<td>" . $user_data['gender'] . "</td>";
+					echo "<td>" . $user_data['address'] . "</td>";
+					echo "<td>" . $user_data['city'] . "</td>";
+					echo "<td>" . $user_data['state'] . "</td>";
+					echo "<td>" . $newsletter . "</td>";
+					echo "<td><a href='update.php?id=" . $user_data['id'] . "'><img src='assets/icons8-edit-30.png'></a><a href='delete.php?id=" . $user_data['id'] . "'><img src='assets/icons8-delete-24.png'></a></td>";
+					echo "</tr>";
 				}
-				echo "<tr>";
-				echo "<td>" . $user_data['name'] . "</td>";
-				echo "<td>" . $user_data['email'] . "</td>";
-				echo "<td>" . $user_data['gender'] . "</td>";
-				echo "<td>" . $user_data['address'] . "</td>";
-				echo "<td>" . $user_data['city'] . "</td>";
-				echo "<td>" . $user_data['state'] . "</td>";
-				echo "<td>" . $newsletter . "</td>";
-				echo "<td><a href='update.php?id=" . $user_data['id'] . "'><img src='assets/icons8-edit-30.png'></a><a href='delete.php?id=" . $user_data['id'] . "'><img src='assets/icons8-delete-24.png'></a></td>";
-				echo "</tr>";
 			}
 			?>
 		</table>
+		<?php
+		if ($searchflag == 1) {
+			echo "<div class='noresult'><h1>No Search Results</h1></div>";
+		}
+		?>
 		<div class="pagination">
 			<?php
-			if (empty($searchedText)) {
+			if (empty($searchedText) && $searchflag != 1) {
 				echo "<a href='index.php?page=$previouspage'><button>&laquo;</button></a>";
 				for ($i = 1; $i <= $lastpage; $i++) {
 					if ($i == $currentpage) {
@@ -100,7 +128,7 @@ $result = $conn->query($sql);
 					}
 				}
 				echo "<a href='index.php?page=$nextpage'><button>&raquo;</button></a>";
-			}else{
+			} else {
 				echo "<a href='index.php'><button id='backButton'>Back</button></a>";
 			}
 			?>

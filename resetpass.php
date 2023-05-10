@@ -5,22 +5,33 @@
 
 include_once("config.php");
 
+function password_validation($str)
+{
+    return (strlen($str) <= 8) ? TRUE : FALSE;
+}
+
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: forgopass.php");
 }
 if (isset($_POST['Reset'])) {
     $id = $_POST['id'];
     $password = $_POST['password'];
+    $conpassword = $_POST['conpassword'];
     $answer = $_POST['answer'];
 
-    $sql = "SELECT answer from employees WHERE id='$id';";
+    $sql = "SELECT answer from users WHERE uid='$id';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
-    if ($user_data['answer'] === $answer) {
-        $sql = "UPDATE employees SET password = '$password' WHERE id ='$id';";
+
+    if(!password_validation($password) && !password_validation($conpassword)){
+        $message = "Password should be longer than 8 characters";
+    } else if($password != $conpassword){
+        $messsage1 = "Your Password doesn't match";
+    } else if ($user_data['answer'] === $answer) {
+        $sql = "UPDATE users SET password = '$password' WHERE uid ='$id';";
         $conn->query($sql);
         header("Location: login.php");
-    } else {
+    }else {
         header("Location: resetpass.php");
     }
 }
@@ -35,48 +46,57 @@ if (isset($_POST['Reset'])) {
 </head>
 <?php
 $id = $_GET['id'];
-$sql = "SELECT question from employees WHERE id='$id';";
+$sql = "SELECT question from users WHERE uid='$id';";
 $result = $conn->query($sql);
 $user_data = $result->fetch_assoc();
 ?>
 
 <body>
-    <header>
-        <img src="assets/icons8-lock-50 (1).png">
-        <h1><a href="index.php">Keep Safe</a></h1>
-    </header>
-    <article>
-        <div class="layout">
-            <div class="form">
-                <div class="main-title">
-                    <h1>Portal</h1>
-                </div>
-                <div class="intro-title">
-                    <h3>Welcome to Portal</h3>
+    <div class="layout">
+        <div class="form">
+            <div class="main-title">
+                <img src="assets/icons8-notes-60.png">
+                <h1>Portal</h1>
+            </div>
+            <div class="intro-title">
+                <h3>Welcome to Portal</h3>
+                <div id="title-desc">
                     <p>Reset Your Password by answering question</p>
                 </div>
-                <form action="resetpass.php" method="post" name="resetpass_page">
-                    <label for="question">
-                        <strong>
-                            <?php echo $user_data['question']; ?> ?
-                        </strong>
-                    </label>
-                    <input type="text" name="answer" id="answer" required>
-                    <label for="password">New Password</label>
-                    <input type="text" name="password" id="password" required>
-                    </label>
-                    <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-                    <input type="submit" name="Reset" value="Reset Password">
-                    <a href="login.php" id="reglink">Login</a>
-                </form>
             </div>
+            <form action="resetpass.php" method="post" name="resetpass_page">
+                <div class="offset">
+                    <input type="text" name="answer" id="answer" required>
+                    <label for="question">
+                        <?php echo $user_data['question']; ?> ?
+                    </label>
+                </div>
+                <div class="offset">
+                    <input type="password" name="password" id="password" required>
+                    <label for="password">New Password</label>
+                    </label>
+                </div>
+                <?php if (!empty($message)) {
+                    echo "<p>" . $message . "</p>";
+                } ?>
+                <div class="offset">
+                    <input type="password" name="conpassword" id="conpassword" required>
+                    <label for="conpassword">Retype New Password</label>
+                    </label>
+                </div>
+                <?php if (!empty($message1)) {
+                    echo "<p>" . $message1 . "</p>";
+                } ?>
+                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                <div id="signButton">
+                    <input type="submit" name="Reset" value="Reset Password">
+                </div>
+                <div class="lower">
+                    <a href="login.php" id="reglink">Login</a>
+                </div>
+            </form>
         </div>
-    </article>
-    <footer>
-        <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
-        <p>Copyright &#169; 2023</p>
-    </footer>
+    </div>
 </body>
 
 </html>

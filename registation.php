@@ -1,7 +1,7 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 include_once("config.php");
 
@@ -30,14 +30,14 @@ if (isset($_POST['Signup'])) {
     $question = $_POST['question'];
     $answer = $_POST['answer'];
 
-    $sql = "SELECT email from employees WHERE email='$email';";
+    $sql = "SELECT email from users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
     if (empty($userdata) && email_validation($email) && password_validation($password) && checkfields($answer)) {
 
 
-        $sql = "INSERT INTO employees(email,password,question,answer,created_at) VALUES('$email','$password','$question','$answer',NOW());";
+        $sql = "INSERT INTO users(email,password,question,answer) VALUES('$email','$password','$question','$answer');";
         $conn->query($sql);
 
         header("Location: login.php");
@@ -47,6 +47,10 @@ if (isset($_POST['Signup'])) {
         $message2 = "Enter a valid email address";
     } else if (!password_validation($password)) {
         $message3 = "Password should be longer than 8 characters";
+    } else if($password != $conpassword){
+        $messsage4 = "Your Password doesn't match";
+    } else if (!empty($answer)) {
+        $message5 = "Please write any answer";
     } else {
         $message = "Please fill all the required fields";
     }
@@ -62,56 +66,70 @@ if (isset($_POST['Signup'])) {
 </head>
 
 <body>
-    <header>
-        <img src="assets/icons8-lock-50 (1).png">
-        <h1><a href="index.php">Keep Safe</a></h1>
-    </header>
-    <article>
-        <div class="layout">
-            <div class="form">
-                <div class="main-title">
-                    <h1>Portal</h1>
-                </div>
-                <div class="intro-title">
-                    <h3>Welcome to Portal</h3>
+    <div class="layout">
+        <div class="form">
+            <div class="main-title">
+                <img src="assets/icons8-notes-60.png">
+                <h1>Portal</h1>
+            </div>
+            <div class="intro-title">
+                <h3>Welcome to Portal</h3>
+                <div id="title-desc">
                     <p>Let's sign-up to your account</p>
                 </div>
-                <form action="registation.php" method="post" name="signup_page">
-                    <label for="email">Email</label>
+            </div>
+            <form action="registation.php" method="post" name="signup_page">
+                <div class="offset">
                     <input type="email" name="email" id="email" required>
-                    <?php if (!empty($message1)) {
-                        echo "<p>" . $message1 . "</p>";
-                    } ?>
-                    <?php if (!empty($message2)) {
-                        echo "<p>" . $message2 . "</p>";
-                    } ?>
-                    <label for="password">Password</label>
+                    <label for="email">Email</label>
+                </div>
+                <?php if (!empty($message1)) {
+                    echo "<p>" . $message1 . "</p>";
+                } ?>
+                <?php if (!empty($message2)) {
+                    echo "<p>" . $message2 . "</p>";
+                } ?>
+                <div class="offset">
                     <input type="password" name="password" id="password" required>
-                    <?php if (!empty($message3)) {
-                        echo "<p>" . $message3 . "</p>";
-                    } ?>
-                    <label for="username">Question</label>
+                    <label for="password">Password</label>
+                </div>
+                <?php if (!empty($message3)) {
+                    echo "<p>" . $message3 . "</p>";
+                } ?>
+                <div class="offset">
+                    <input type="password" name="conpassword" id="conpassword" required>
+                    <label for="conpassword">Retype Password</label>
+                </div>
+                <?php if (!empty($message4)) {
+                    echo "<p>" . $message4 . "</p>";
+                } ?>
+                <div class="offset">
                     <select name="question" required>
                         <option>Your Nickname</option>
                         <option>Your Best Friend</option>
                         <option>Your Favourite Color</option>
                     </select>
-                    <label for="answer">Answer</label>
+                    <label for="username">Question</label>
+                </div>
+                <div class="offset">
                     <input type="text" name="answer" id="name" required>
-                    <?php if (!empty($message)) {
-                        echo "<p>" . $message . "</p>";
-                    } ?>
+                    <label for="answer">Answer</label>
+                </div>
+                <?php if (!empty($message5)) {
+                    echo "<p>" . $message5 . "</p>";
+                } ?>
+                <?php if (!empty($message)) {
+                    echo "<p>" . $message . "</p>";
+                } ?>
+                <div id="signButton">
                     <input type="submit" name="Signup" value="Sign Up">
-                    <a href="login.php" id="reglink">Login into your account</a>
-                </form>
-            </div>
+                </div>
+                <div class="lower">
+                    <a href="login.php">Login into your account</a>
+                </div>
+            </form>
         </div>
-    </article>
-    <footer>
-        <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
-        <p>Copyright &#169; 2023</p>
-    </footer>
+    </div>
 </body>
 
 </html>

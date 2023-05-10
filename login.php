@@ -14,7 +14,7 @@ if (isset($_POST['Login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT email,password from employees WHERE email='$email';";
+    $sql = "SELECT email,password from users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
@@ -42,41 +42,43 @@ if (isset($_POST['Login'])) {
 </head>
 
 <body>
-    <header>
-        <img src="assets/icons8-lock-50 (1).png">
-        <h1><a href="index.php">Keep Safe</a></h1>
-    </header>
-    <article>
-        <div class="layout">
-            <div class="form">
-                <div class="main-title">
-                    <h1>Portal</h1>
-                </div>
-                <div class="intro-title">
-                    <h3>Welcome to Portal</h3>
+    <div class="layout">
+        <div class="form">
+            <div class="main-title">
+                <img src="assets/icons8-notes-60.png">
+                <h1>Portal</h1>
+            </div>
+            <div class="intro-title">
+                <h3>Welcome to Portal</h3>
+                <div id="title-desc">
                     <p>Please log-in to your account</p>
                 </div>
-                <form action="login.php" method="post" name="login_page">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required>
-                    <?php if(!empty($message1)){echo "<p>" . $message1 . "</p>";} ?>
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" required>
-                    <?php if(!empty($message2)){echo "<p>" . $message2 . "</p>";} ?>
-                    <div class="linksection">
-                        <a href="forgopass.php">Forgot Password</a>
-                    </div>
-                    <input type="submit" name="Login" value="Login">
-                    <a href="registation.php" id="reglink">Create an account</a>
-                </form>
             </div>
+            <form action="login.php" method="post" name="login_page">
+                <div class="offset" >
+                    <input type="email" name="email" id="email" required>
+                    <label for="email">Email</label>
+                </div>
+                <?php if (!empty($message1)) {
+                    echo "<p>" . $message1 . "</p>";
+                } ?>
+                <div class="offset" >
+                    <input type="password" name="password" id="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <?php if (!empty($message2)) {
+                    echo "<p>" . $message2 . "</p>";
+                } ?>
+                <div class="linksection">
+                    <a href="forgopass.php">Forgot Password?</a>
+                </div>
+                <input type="submit" name="Login" value="Login">
+                <div class="lower">
+                    <p>New on our platform?</p><a href="registation.php" id="reglink"> Create an account</a>
+                </div>
+            </form>
         </div>
-    </article>
-    <footer>
-        <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
-        <p>Copyright &#169; 2023</p>
-    </footer>
+    </div>
 </body>
 
 </html>

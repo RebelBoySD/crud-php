@@ -7,10 +7,10 @@ include_once("config.php");
 if (isset($_POST['Find'])) {
     $email = $_POST['email'];
 
-    $sql = "SELECT id,email FROM employees WHERE email='$email';";
+    $sql = "SELECT uid,email FROM users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
-    $id = $user_data['id'];
+    $id = $user_data['uid'];
     if ($user_data['email'] == $email) {
         header("Location: resetpass.php?id=$id");
     } else {
@@ -28,36 +28,35 @@ if (isset($_POST['Find'])) {
 </head>
 
 <body>
-    <header>
-        <img src="assets/icons8-lock-50 (1).png">
-        <h1><a href="index.php">Keep Safe</a></h1>
-    </header>
-    <article>
-        <div class="layout">
-            <div class="form">
-                <div class="main-title">
-                    <h1>Portal</h1>
-                </div>
-                <div class="intro-title">
-                    <h3>Welcome to Portal</h3>
+    <div class="layout">
+        <div class="form">
+            <div class="main-title">
+                <img src="assets/icons8-notes-60.png">
+                <h1>Portal</h1>
+            </div>
+            <div class="intro-title">
+                <h3>Welcome to Portal</h3>
+                <div id="title-desc">
                     <p>Recover your account</p>
                 </div>
-                <form action="forgopass.php" method="post" name="forgopass_page">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required>
-                    <?php if(!empty($message)){echo "<p>" . $message . "</p>";} ?>
-                    <input type="submit" name="Find" value="Find">
-                    <a href="registation.php" id="reglink">Sign Up</a>
-                    <a href="login.php" id="reglink">Login</a>
-                </form>
             </div>
+            <form action="forgopass.php" method="post" name="forgopass_page">
+                <div class="offset">
+                    <input type="email" name="email" id="email" required>
+                    <label for="email">Email</label>
+                </div>
+                <?php if (!empty($message)) {
+                    echo "<p>" . $message . "</p>";
+                } ?>
+                <div id="signButton">
+                    <input type="submit" name="Find" value="Find">
+                </div>
+                <div class="lower">
+                    <a href="login.php" id="reglink">Login</a>
+                </div>
+            </form>
         </div>
-    </article>
-    <footer>
-        <h3>Address</h3>
-        <p>#31, Oxford Street, London East, Main City, London, United Kingdom</p>
-        <p>Copyright &#169; 2023</p>
-    </footer>
+    </div>
 </body>
 
 </html>
