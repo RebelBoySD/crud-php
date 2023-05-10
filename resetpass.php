@@ -10,7 +10,7 @@ function password_validation($str)
     return (strlen($str) <= 8) ? TRUE : FALSE;
 }
 
-if (!isset($_GET['id']) || empty($_GET['id'])) {
+if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
     header("Location: forgopass.php");
 }
 if (isset($_POST['Reset'])) {
@@ -23,16 +23,20 @@ if (isset($_POST['Reset'])) {
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
-    if(!password_validation($password) && !password_validation($conpassword)){
+    $errcnt = 0;
+
+    if(!password_validation($password)){
         $message = "Password should be longer than 8 characters";
-    } else if($password != $conpassword){
-        $messsage1 = "Your Password doesn't match";
-    } else if ($user_data['answer'] === $answer) {
+        $errcnt++;
+    }
+    if(!($password === $conpassword)){
+        $message1 = "Your Password doesn't match";
+        $errcnt++;
+    } 
+    if ($user_data['answer'] === $answer && $errcnt == 0) {
         $sql = "UPDATE users SET password = '$password' WHERE uid ='$id';";
         $conn->query($sql);
         header("Location: login.php");
-    }else {
-        header("Location: resetpass.php");
     }
 }
 ?>
@@ -45,7 +49,7 @@ if (isset($_POST['Reset'])) {
     <link rel="stylesheet" href="login.css" />
 </head>
 <?php
-$id = $_GET['id'];
+$id = $_REQUEST['id'];
 $sql = "SELECT question from users WHERE uid='$id';";
 $result = $conn->query($sql);
 $user_data = $result->fetch_assoc();
@@ -87,7 +91,7 @@ $user_data = $result->fetch_assoc();
                 <?php if (!empty($message1)) {
                     echo "<p>" . $message1 . "</p>";
                 } ?>
-                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                <input type="hidden" name="id" value= "<?php echo $_REQUEST['id']; ?>" >
                 <div id="signButton">
                     <input type="submit" name="Reset" value="Reset Password">
                 </div>

@@ -12,16 +12,7 @@ function email_validation($str)
 
 function password_validation($str)
 {
-    return (strlen($str) <= 8) ? TRUE : FALSE;
-}
-
-function checkfields($str)
-{
-    if (!empty($str)) {
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+    return (strlen($str) <= 8 && strlen($str) > 0) ? TRUE : FALSE;
 }
 
 if (isset($_POST['Signup'])) {
@@ -29,30 +20,42 @@ if (isset($_POST['Signup'])) {
     $password = $_POST['password'];
     $question = $_POST['question'];
     $answer = $_POST['answer'];
+    $conpassword = $_POST['conpassword'];
 
     $sql = "SELECT email from users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
-    if (empty($userdata) && email_validation($email) && password_validation($password) && checkfields($answer)) {
+    $errcnt = 0;
+
+     if (!empty($userdata)) {
+        $message1 = "Account already exists";
+        $errcnt++;
+    }
+    if (!email_validation($email)) {
+        $message2 = "Enter a valid email address";
+        $errcnt++;
+    }
+    if (!password_validation($password)) {
+        $message3 = "Password should be longer than 8 characters";
+        $errcnt++;
+    }
+    if(!($password === $conpassword)){
+        $messsage4 = "Your Password doesn't match";
+        $errcnt++;
+    }
+    if (empty($answer)) {
+        $message5 = "Please write any answer";
+        $errcnt++;
+    }
+
+    if ($errcnt != 0) {
 
 
         $sql = "INSERT INTO users(email,password,question,answer) VALUES('$email','$password','$question','$answer');";
         $conn->query($sql);
 
         header("Location: login.php");
-    } else if (!empty($userdata)) {
-        $message1 = "Account already exists";
-    } else if (!email_validation($email)) {
-        $message2 = "Enter a valid email address";
-    } else if (!password_validation($password)) {
-        $message3 = "Password should be longer than 8 characters";
-    } else if($password != $conpassword){
-        $messsage4 = "Your Password doesn't match";
-    } else if (!empty($answer)) {
-        $message5 = "Please write any answer";
-    } else {
-        $message = "Please fill all the required fields";
     }
 }
 ?>
