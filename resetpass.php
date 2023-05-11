@@ -14,7 +14,7 @@ if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
     header("Location: forgopass.php");
 }
 
-$message1 = $message2 = $message3 = $message4 =  $message5 = $message6 = "";
+$message1 = $message2 = $message3 = $message4 = $message5 = $message6 = "";
 $email = $password = $conpassword = $question = $answer = "";
 
 if (isset($_POST['Reset'])) {
@@ -37,7 +37,7 @@ if (isset($_POST['Reset'])) {
         $message3 = "Please enter any text";
         $errcnt++;
     }
-    if(!password_validation($password)){
+    if (!password_validation($password)) {
         $message4 = "Password should be longer than 8 characters";
         $errcnt++;
     }
@@ -45,15 +45,15 @@ if (isset($_POST['Reset'])) {
         $message5 = "Please enter any text";
         $errcnt++;
     }
-    if(!($password === $conpassword)){
+    if (!($password === $conpassword)) {
         $message6 = "Your Password doesn't match";
         $errcnt++;
-    } 
+    }
     if ($user_data['answer'] === $answer && $errcnt == 0) {
         $sql = "UPDATE users SET password = '$password' WHERE uid ='$id';";
         $conn->query($sql);
-        header("Location: login.php");
-    } else{
+        header("Location: login.php?message=Reset Password Successfully");
+    } else {
         $message2 == "Wrong Answer";
     }
 }
@@ -80,7 +80,7 @@ if ($question == 'Your Nickname') {
     $isSelected[1] = 'selected';
 } elseif ($question == 'Your Favourite Color') {
     $isSelected[2] = 'selected';
-}else {
+} else {
     $isSelected[0] = $isSelected[1] = $isSelected[2] = "";
 }
 
@@ -100,11 +100,11 @@ if ($question == 'Your Nickname') {
                 </div>
             </div>
             <form action="resetpass.php" method="post" name="resetpass_page">
-            <?php if (!empty($message1) || !empty($message2)) {
+                <?php if (!empty($message1) || !empty($message2)) {
                     echo "<div class='error-box'>";
                 } ?>
                 <div class="offset">
-                    <input type="text" name="answer" id="answer" <?php echo "value='$answer'"?>required>
+                    <input type="text" name="answer" id="answer" <?php echo "value='$answer'" ?>required>
                     <label for="question">
                         <?php echo $user_data['question']; ?> ?
                     </label>
@@ -112,11 +112,17 @@ if ($question == 'Your Nickname') {
                 <?php if (!empty($message1) || !empty($message2)) {
                     echo "</div>";
                 } ?>
+                <?php if (!empty($message1)) {
+                    echo "<p>" . $message1 . "</p>";
+                } ?>
+                <?php if (!empty($message2)) {
+                    echo "<p>" . $message2 . "</p>";
+                } ?>
                 <?php if (!empty($message3) || !empty($message4)) {
                     echo "<div class='error-box'>";
                 } ?>
                 <div class="offset">
-                    <input type="password" name="password" id="password" <?php echo "value='$password'"?>required>
+                    <input type="password" name="password" id="password" <?php echo "value='$password'" ?>required>
                     <label for="password">New Password</label>
                     </label>
                 </div>
@@ -133,7 +139,7 @@ if ($question == 'Your Nickname') {
                     echo "<div class='error-box'>";
                 } ?>
                 <div class="offset">
-                    <input type="password" name="conpassword" id="conpassword" <?php echo "value='$conpassword'"?>required>
+                    <input type="password" name="conpassword" id="conpassword" <?php echo "value='$conpassword'" ?>required>
                     <label for="conpassword">Retype New Password</label>
                     </label>
                 </div>
@@ -146,7 +152,7 @@ if ($question == 'Your Nickname') {
                 <?php if (!empty($message6)) {
                     echo "<p>" . $message6 . "</p>";
                 } ?>
-                <input type="hidden" name="id" value= "<?php echo $_REQUEST['id']; ?>" >
+                <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>">
                 <div id="signButton">
                     <input type="submit" name="Reset" value="Reset Password">
                 </div>

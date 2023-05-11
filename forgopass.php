@@ -5,22 +5,25 @@
 
 include_once("config.php");
 
-$message1 = $message2 = "";
-
 if (isset($_POST['Recover'])) {
     $email = $_POST['email'];
+
+    $message1 = $message2 = "";
 
     $sql = "SELECT uid,email FROM users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
     $id = $user_data['uid'];
-    if ($user_data['email'] == $email) {
-        header("Location: resetpass.php?id=$id");
+    if (!empty($email)) {
+        if ($user_data['email'] == $email) {
+            header("Location: resetpass.php?id=$id");
+        } else {
+            $message1 = "Email Address doesn't exists!";
+        }
     } else {
-        $message1 = "Email Address doesn't exists!";
+        $message2 = "Please enter the email";
     }
-} else {
-    $message2 = "Please enter the email";
+
 }
 ?>
 
@@ -30,8 +33,6 @@ if (isset($_POST['Recover'])) {
 <head>
     <title>Forget Password</title>
     <link rel="stylesheet" href="login.css" />
-    <?php if (!empty($message1) || !empty($message2)) {echo "<style> .offset {color: red;
-    border: 0.5px solid red;}</style>";}?>
 </head>
 
 <body>
@@ -48,14 +49,20 @@ if (isset($_POST['Recover'])) {
                 </div>
             </div>
             <form action="forgopass.php" method="post" name="forgopass_page">
+                <?php if (!empty($message1) || !empty($message2)) {
+                    echo "<div class='error-box'>";
+                } ?>
                 <div class="offset">
-                    <input type="email" name="email" id="email" <?php echo "value='$email'"?>required>
+                    <input type="email" name="email" id="email" <?php echo "value='$email'" ?>required>
                     <label for="email">Email</label>
                 </div>
-                <?php if (!empty($message1)) {
+                <?php if (!empty($message1) || !empty($message2)) {
+                    echo "</div>";
+                } ?>
+                <?php if (!empty($message1) && empty($message2)) {
                     echo "<p>" . $message1 . "</p>";
                 } ?>
-                <?php if (!empty($message2)) {
+                <?php if (!empty($message2) && empty($message1)) {
                     echo "<p>" . $message2 . "</p>";
                 } ?>
                 <div id="signButton">

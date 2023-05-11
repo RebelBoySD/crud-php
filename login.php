@@ -15,14 +15,14 @@ $email = $password = $conpassword = $question = $answer = "";
 
 if (isset($_POST['Login'])) {
     $email = $_POST['email'];
-    $password1 = $_POST['password1'];
+    $password = $_POST['password'];
 
     $sql = "SELECT email,password from users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
     $errcnt = 0;
-    if ($user_data['email'] != $email) {
+    if ($user_data['email'] !== $email) {
         $message1 = "Email Address doesn't exists!";
         $errcnt++;
         if ($email == "") {
@@ -30,7 +30,7 @@ if (isset($_POST['Login'])) {
             $errcnt++;
         }
     }
-    if ($user_data['password'] != $password) {
+    if ($user_data['password'] !== $password) {
         $message3 = "Wrong Password";
         $errcnt++;
         if ($password == "") {
@@ -38,7 +38,7 @@ if (isset($_POST['Login'])) {
             $errcnt++;
         }
     }
-    if ($errcnt != 0) {
+    if ($errcnt == 0) {
         session_start();
         $_SESSION["LoggedIn"] = "yes";
         header("Location: index.php");
@@ -68,6 +68,12 @@ if (isset($_POST['Login'])) {
                     <p>Please log-in to your account</p>
                 </div>
             </div>
+            <?php
+                if(isset($_GET['message'])){
+                $message = $_GET['message'];
+                echo "<div id='message'><p>$message</p></div>";
+                } 
+            ?>
             <form action="login.php" method="post" name="login_page">
                 <?php if (!empty($message1) || !empty($message2)) {
                     echo "<div class='error-box'>";
@@ -79,7 +85,7 @@ if (isset($_POST['Login'])) {
                 <?php if (!empty($message1) || !empty($message2)) {
                     echo "</div>";
                 } ?>
-                <?php if (!empty($message1)) {
+                <?php if (!empty($message1) && empty($message2)) {
                     echo "<p>" . $message1 . "</p>";
                 } ?>
                 <?php if (!empty($message2)) {
@@ -95,7 +101,7 @@ if (isset($_POST['Login'])) {
                 <?php if (!empty($message3) || !empty($message4)) {
                     echo "</div>";
                 } ?>
-                <?php if (!empty($message3)) {
+                <?php if (!empty($message3) && empty($message4)) {
                     echo "<p>" . $message3 . "</p>";
                 } ?>
                 <?php if (!empty($message4)) {

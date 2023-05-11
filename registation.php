@@ -14,7 +14,7 @@ function password_validation($str)
     return (strlen($str) <= 8 && strlen($str) > 0) ? TRUE : FALSE;
 }
 
-$message1 = $message2 = $message3 = $message4 =  $message5 = $message6 = $message7 = $message8 = "";
+$message1 = $message2 = $message3 = $message4 = $message5 = $message6 = $message7 = $message8 = "";
 $email = $password = $conpassword = $question = $answer = "";
 
 if (isset($_POST['Signup'])) {
@@ -27,9 +27,9 @@ if (isset($_POST['Signup'])) {
     $sql = "SELECT email from users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
-    
+
     $errcnt = 0;
-    
+
     if (!empty($user_data)) {
         $message1 = "Account already exists";
         $errcnt++;
@@ -54,10 +54,10 @@ if (isset($_POST['Signup'])) {
         $message6 = "Please enter any text";
         $errcnt++;
     }
-    if(!($password === $conpassword)){
+    if (!($password === $conpassword)) {
         $message7 = "Your Password doesn't match";
         $errcnt++;
-    } 
+    }
     if ($answer == "") {
         $message8 = "Please write any answer";
         $errcnt++;
@@ -69,7 +69,7 @@ if (isset($_POST['Signup'])) {
         $sql = "INSERT INTO users(email,password,question,answer) VALUES('$email','$password','$question','$answer');";
         $conn->query($sql);
 
-        header("Location: login.php");
+        header("Location: login.php?message=Account Created Successfully");
     }
 }
 ?>
@@ -82,7 +82,7 @@ if (isset($_POST['Signup'])) {
     <link rel="stylesheet" href="login.css" />
 </head>
 
-<?php 
+<?php
 
 $isSelected[0] = $isSelected[1] = $isSelected[2] = "";
 
@@ -92,9 +92,9 @@ if ($question == 'Your Nickname') {
     $isSelected[1] = 'selected';
 } elseif ($question == 'Your Favourite Color') {
     $isSelected[2] = 'selected';
-}else {
+} else {
     $isSelected[0] = $isSelected[1] = $isSelected[2] = "";
-}?>
+} ?>
 
 <body>
     <div class="layout">
@@ -110,14 +110,14 @@ if ($question == 'Your Nickname') {
                 </div>
             </div>
             <form action="registation.php" method="post" name="signup_page">
-            <?php if (!empty($message)) {
+                <?php if (!empty($message)) {
                     echo "<div class='error-box'>";
                 } ?>
-            <?php if (!empty($message1) || !empty($message2) || !empty($message3)) {
+                <?php if (!empty($message1) || !empty($message2) || !empty($message3)) {
                     echo "<div class='error-box'>";
                 } ?>
                 <div class="offset">
-                    <input type="email" name="email" id="email" <?php echo "value='$email'"?> required>
+                    <input type="email" name="email" id="email" <?php echo "value='$email'" ?> required>
                     <label for="email">Email</label>
                 </div>
                 <?php if (!empty($message1) || !empty($message2) || !empty($message3)) {
@@ -126,7 +126,7 @@ if ($question == 'Your Nickname') {
                 <?php if (!empty($message1)) {
                     echo "<p>" . $message1 . "</p>";
                 } ?>
-                <?php if (!empty($message2)) {
+                <?php if (!empty($message2) && empty($message3)) {
                     echo "<p>" . $message2 . "</p>";
                 } ?>
                 <?php if (!empty($message3)) {
@@ -136,7 +136,7 @@ if ($question == 'Your Nickname') {
                     echo "<div class='error-box'>";
                 } ?>
                 <div class="offset">
-                    <input type="password" name="password" id="password" <?php echo "value='$password'"?>required>
+                    <input type="password" name="password" id="password" <?php echo "value='$password'" ?>required>
                     <label for="password">Password</label>
                 </div>
                 <?php if (!empty($message4) || !empty($message5) || !empty($message7)) {
@@ -149,7 +149,7 @@ if ($question == 'Your Nickname') {
                     echo "<div class='error-box'>";
                 } ?>
                 <div class="offset">
-                    <input type="password" name="conpassword" id="conpassword" <?php echo "value='$conpassword'"?>required>
+                    <input type="password" name="conpassword" id="conpassword" <?php echo "value='$conpassword'" ?>required>
                     <label for="conpassword">Retype Password</label>
                 </div>
                 <?php if (!empty($message6) || !empty($message7)) {
@@ -163,7 +163,7 @@ if ($question == 'Your Nickname') {
                 } ?>
                 <div class="offset">
                     <select name="question" required>
-                        <option <?php echo $isSelected[0]; ?> >Your Nickname</option>
+                        <option <?php echo $isSelected[0]; ?>>Your Nickname</option>
                         <option <?php echo $isSelected[1]; ?>>Your Best Friend</option>
                         <option <?php echo $isSelected[2]; ?>>Your Favourite Color</option>
                     </select>
@@ -173,7 +173,7 @@ if ($question == 'Your Nickname') {
                     echo "<div class='error-box'>";
                 } ?>
                 <div class="offset">
-                    <input type="text" name="answer" id="name" <?php echo "value='$answer'"?>required>
+                    <input type="text" name="answer" id="name" <?php echo "value='$answer'" ?>required>
                     <label for="answer">Answer</label>
                 </div>
                 <?php if (!empty($message8)) {

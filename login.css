@@ -148,7 +148,7 @@ form p {
   font-size: 22px;
 }
 
-#signButton{
+#signButton {
   margin-top: 1rem;
 }
 
@@ -157,7 +157,7 @@ form p {
   border: 0.5px solid red;
 }
 
-.offset{
+.offset {
   display: flex;
   align-items: center;
   position: relative;
@@ -168,23 +168,29 @@ form p {
   width: fit-content;
   height: max-content;
   position: absolute;
-  left: 1rem; 
+  left: 1rem;
   transition: all 0.2s ease-in;
 }
 
 input:focus + label,
-input:empty + label{
+input:empty + label {
   font-size: small;
-  translate: 0 -1.5rem; 
+  translate: 0 -1.5rem;
 }
 
 select:focus + label,
-select:valid +label,
-select:invalid +label{
+select:valid + label,
+select:invalid + label {
   font-size: small;
-  translate: 0 -1.5rem; 
+  translate: 0 -1.5rem;
 }
 
 .lower p {
   margin-top: 2.65px;
+}
+
+#message{
+  margin-bottom: 20px;
+  margin-top: -10px;
+  font-weight: 600;
 }
