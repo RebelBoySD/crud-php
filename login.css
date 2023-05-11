@@ -127,6 +127,9 @@ input:focus {
 
 form p {
   color: red;
+  margin: -14px 10px 5px 5px;
+  font-size: 15px;
+  font-weight: lighter;
 }
 
 .lower {
@@ -147,6 +150,11 @@ form p {
 
 #signButton{
   margin-top: 1rem;
+}
+
+.error-box {
+  color: red;
+  border: 0.5px solid red;
 }
 
 .offset{
@@ -175,4 +183,8 @@ select:valid +label,
 select:invalid +label{
   font-size: small;
   translate: 0 -1.5rem; 
+}
+
+.lower p {
+  margin-top: 2.65px;
 }

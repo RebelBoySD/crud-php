@@ -4,7 +4,10 @@
 // error_reporting(E_ALL);
 
 include_once("config.php");
-if (isset($_POST['Find'])) {
+
+$message1 = $message2 = "";
+
+if (isset($_POST['Recover'])) {
     $email = $_POST['email'];
 
     $sql = "SELECT uid,email FROM users WHERE email='$email';";
@@ -14,8 +17,10 @@ if (isset($_POST['Find'])) {
     if ($user_data['email'] == $email) {
         header("Location: resetpass.php?id=$id");
     } else {
-        $message = "Email Address doesn't exists!";
+        $message1 = "Email Address doesn't exists!";
     }
+} else {
+    $message2 = "Please enter the email";
 }
 ?>
 
@@ -25,13 +30,15 @@ if (isset($_POST['Find'])) {
 <head>
     <title>Forget Password</title>
     <link rel="stylesheet" href="login.css" />
+    <?php if (!empty($message1) || !empty($message2)) {echo "<style> .offset {color: red;
+    border: 0.5px solid red;}</style>";}?>
 </head>
 
 <body>
     <div class="layout">
         <div class="form">
             <div class="main-title">
-                <img src="assets/icons8-notes-60.png">
+                <img src="assets/icons8-logo-96.png">
                 <h1>Portal</h1>
             </div>
             <div class="intro-title">
@@ -42,14 +49,17 @@ if (isset($_POST['Find'])) {
             </div>
             <form action="forgopass.php" method="post" name="forgopass_page">
                 <div class="offset">
-                    <input type="email" name="email" id="email" required>
+                    <input type="email" name="email" id="email" <?php echo "value='$email'"?>required>
                     <label for="email">Email</label>
                 </div>
-                <?php if (!empty($message)) {
-                    echo "<p>" . $message . "</p>";
+                <?php if (!empty($message1)) {
+                    echo "<p>" . $message1 . "</p>";
+                } ?>
+                <?php if (!empty($message2)) {
+                    echo "<p>" . $message2 . "</p>";
                 } ?>
                 <div id="signButton">
-                    <input type="submit" name="Find" value="Find">
+                    <input type="submit" name="Recover" value="Recover">
                 </div>
                 <div class="lower">
                     <a href="login.php" id="reglink">Login</a>

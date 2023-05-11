@@ -10,24 +10,38 @@ if ($_SESSION["LoggedIn"] == "yes") {
     header('Location:index.php');
 }
 
+$message1 = $message2 = $message3 = $message4 = "";
+$email = $password = $conpassword = $question = $answer = "";
+
 if (isset($_POST['Login'])) {
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $password1 = $_POST['password1'];
 
     $sql = "SELECT email,password from users WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
 
-    if ($user_data['email'] === $email && $user_data['password'] === $password) {
+    $errcnt = 0;
+    if ($user_data['email'] != $email) {
+        $message1 = "Email Address doesn't exists!";
+        $errcnt++;
+        if ($email == "") {
+            $message2 = "Please enter the email";
+            $errcnt++;
+        }
+    }
+    if ($user_data['password'] != $password) {
+        $message3 = "Wrong Password";
+        $errcnt++;
+        if ($password == "") {
+            $message4 = "Please enter the password";
+            $errcnt++;
+        }
+    }
+    if ($errcnt != 0) {
         session_start();
         $_SESSION["LoggedIn"] = "yes";
         header("Location: index.php");
-    } elseif ($user_data['email'] != $email) {
-        $message1 = "Email Address doesn't exists!";
-    } elseif ($user_data['password'] != $password) {
-        $message2 = "Wrong Password";
-    } else {
-        header("Location: login.php");
     }
 }
 
@@ -45,7 +59,7 @@ if (isset($_POST['Login'])) {
     <div class="layout">
         <div class="form">
             <div class="main-title">
-                <img src="assets/icons8-notes-60.png">
+                <img src="assets/icons8-logo-96.png">
                 <h1>Portal</h1>
             </div>
             <div class="intro-title">
@@ -55,19 +69,37 @@ if (isset($_POST['Login'])) {
                 </div>
             </div>
             <form action="login.php" method="post" name="login_page">
-                <div class="offset" >
-                    <input type="email" name="email" id="email" required>
+                <?php if (!empty($message1) || !empty($message2)) {
+                    echo "<div class='error-box'>";
+                } ?>
+                <div class="offset">
+                    <input type="email" name="email" id="email" <?php echo "value='$email'" ?>required>
                     <label for="email">Email</label>
                 </div>
+                <?php if (!empty($message1) || !empty($message2)) {
+                    echo "</div>";
+                } ?>
                 <?php if (!empty($message1)) {
                     echo "<p>" . $message1 . "</p>";
                 } ?>
-                <div class="offset" >
-                    <input type="password" name="password" id="password" required>
-                    <label for="password">Password</label>
-                </div>
                 <?php if (!empty($message2)) {
                     echo "<p>" . $message2 . "</p>";
+                } ?>
+                <?php if (!empty($message3) || !empty($message4)) {
+                    echo "<div class='error-box'>";
+                } ?>
+                <div class="offset">
+                    <input type="password" name="password" id="password" <?php echo "value='$password'" ?>required>
+                    <label for="password">Password</label>
+                </div>
+                <?php if (!empty($message3) || !empty($message4)) {
+                    echo "</div>";
+                } ?>
+                <?php if (!empty($message3)) {
+                    echo "<p>" . $message3 . "</p>";
+                } ?>
+                <?php if (!empty($message4)) {
+                    echo "<p>" . $message4 . "</p>";
                 } ?>
                 <div class="linksection">
                     <a href="forgopass.php">Forgot Password?</a>
