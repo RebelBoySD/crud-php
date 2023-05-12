@@ -189,8 +189,11 @@ select:invalid + label {
   margin-top: 2.65px;
 }
 
-#message{
-  margin-bottom: 20px;
-  margin-top: -10px;
+#message {
+  margin-bottom: 0px;
+  margin-top: -27px;
   font-weight: 600;
+  display: flex;
+  justify-content: space-around;
+  color: lightgreen;
 }

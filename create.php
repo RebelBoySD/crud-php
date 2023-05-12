@@ -29,15 +29,32 @@ if (isset($_POST['Create'])) {
     $sql = "SELECT email FROM employees WHERE email='$email';";
     $result = $conn->query($sql);
     $user_data = $result->fetch_assoc();
-    if ($user_data['email'] == $email) {
-        $message = "No email address can be used twice";
-    } else if (empty($name)) {
+
+    $errcnt = 0;
+    if (empty($name)) {
         $message1 = "Please enter the name";
-    } else if (empty($email) || !email_validation($email)) {
-        $message2 = "Please enter a valid email";
-    } else if (empty($gender)) {
-        $message3 = "Please select the gender";
-    } else {
+        $errcnt++;
+    }
+    if (empty($email)) {
+        $message2 = "Please enter the email";
+        $errcnt++;
+    }
+    if (!email_validation($email)) {
+        $message3 = "Please enter a valid email";
+        $errcnt++;
+    }
+    if (empty($gender)) {
+        $message4 = "Please select the gender";
+    }
+    if (empty($address)) {
+        $message5 = "Please enter the address";
+        $errcnt++;
+    }
+    if (empty($city)) {
+        $message6 = "Please enter the city";
+        $errcnt++;
+    }
+    if ($errcnt == 0) {
         $sql = "INSERT INTO employees(name,email,gender,address,city,state,newsletter,created_at) VALUES('$name','$email','$gender','$address','$city','$state','$newsletter',NOW());";
         $conn->query($sql);
 
@@ -56,15 +73,15 @@ if (isset($_POST['Create'])) {
 
 <body>
     <header>
-		<div class="logo">
-			<img src="assets/icons8-lock-50 (1).png">
-			<h1><a href="index.php">Keep Safe</a></h1>
-		</div>
-		<div class="logoButton">
-			<!-- <a href="account.php"><img src="assets/icons8-male-user-96.png"></a> -->
-			<a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
-		</div>
-	</header>
+        <div class="logo">
+            <img src="assets/icons8-lock-50 (1).png">
+            <h1><a href="index.php">Keep Safe</a></h1>
+        </div>
+        <div class="logoButton">
+            <!-- <a href="account.php"><img src="assets/icons8-male-user-96.png"></a> -->
+            <a href="logout.php"><img src="assets/icons8-logout-30.png"></a>
+        </div>
+    </header>
     <article>
         <div class="topSection">
             <h1>Add Details</h1>
@@ -75,39 +92,98 @@ if (isset($_POST['Create'])) {
         <div class="layout">
             <div class="form">
                 <form action="create.php" name="create_page" method="post">
-                    <label for="name">Name</label><input type="text" name="name" required>
+                    <?php
+                    if ($gender === "Male") {
+                        $isMale = 'checked';
+                    }
+                    if ($gender === "Female") {
+                        $isFemale = 'checked';
+                    }
+
+                    if ($newsletter == 1) {
+                        $isOpted = 'checked';
+                    }
+
+                    if ($state == "Haryana") {
+                        $isSelected[0] = 'selected';
+                    } elseif ($state == 'Punjab') {
+                        $isSelected[1] = 'selected';
+                    } elseif ($state == 'Gujarat') {
+                        $isSelected[2] = 'selected';
+                    } else {
+                        $isSelected[3] = 'selected';
+                    }
+                    ?>
+                    <?php if (!empty($message1)) {
+                        echo "<div class='error-box'>";
+                    } ?>
+                    <label for="name">Name</label><input type="text" name="name" <?php echo "value='$name'" ?> required>
+                    <?php if (!empty($message1)) {
+                        echo "</div>";
+                    } ?>
                     <?php if (!empty($message1)) {
                         echo "<p>" . $message1 . "</p>";
                     } ?>
-                    <label for="email">Email</label><input type="email" name="email" required>
-                    <?php if (!empty($message)) {
-                        echo "<p>" . $message . "</p>";
+                    <?php if (!empty($message2) || !empty($message3)) {
+                        echo "<div class='error-box'>";
+                    } ?>
+                    <label for="email">Email</label><input type="email" name="email" <?php echo "value='$email'" ?>
+                        required>
+                    <?php if (!empty($message2) || !empty($message3)) {
+                        echo "</div>";
                     } ?>
                     <?php if (!empty($message2)) {
                         echo "<p>" . $message2 . "</p>";
                     } ?>
-                    <div class="same-line">
-                        <label for="gender">Gender</label>
-                        <input type="radio" name="gender" value="male" required>
-                        <label for="Male" class="notreq">Male</label>
-                        <input type="radio" name="gender" value="female">
-                        <label for="Female" class="notreq">Female</label>
-                    </div>
-                    <?php if (!empty($message3)) {
+                    <?php if (!empty($message3) && empty($message2)) {
                         echo "<p>" . $message3 . "</p>";
                     } ?>
-                    <label for="address">Address</label><textarea name="address"></textarea>
-                    <label for="city">City</label><input type="text" name="city">
+                    <?php if (!empty($message4)) {
+                        echo "<div class='radio-error'>";
+                    } ?>
+                    <div class="same-line">
+                        <label for="gender">Gender</label>
+                        <input type="radio" name="gender" value="male" <?php echo $isMale; ?>required>
+                        <label for="Male" class="notreq">Male</label>
+                        <input type="radio" name="gender" value="female" <?php echo $isFemale; ?>>
+                        <label for="Female" class="notreq">Female</label>
+                    </div>
+                    <?php if (!empty($message4)) {
+                        echo "</div>";
+                    } ?>
+                    <?php if (!empty($message4)) {
+                        echo "<p>" . $message4 . "</p>";
+                    } ?>
+                    <?php if (!empty($message5)) {
+                        echo "<div class='error-box'>";
+                    } ?>
+                    <label for="address">Address</label><textarea name="address" <?php echo "value='$address'" ?>></textarea>
+                    <?php if (!empty($message5)) {
+                        echo "</div>";
+                    } ?>
+                    <?php if (!empty($message5)) {
+                        echo "<p>" . $message5 . "</p>";
+                    } ?>
+                    <?php if (!empty($message6)) {
+                        echo "<div class='error-box'>";
+                    } ?>
+                    <label for="city">City</label><input type="text" name="city" <?php echo "value='$city'" ?>>
+                    <?php if (!empty($message6)) {
+                        echo "</div>";
+                    } ?>
+                    <?php if (!empty($message6)) {
+                        echo "<p>" . $message6 . "</p>";
+                    } ?>
                     <label for="state">State</label>
                     <select name="state">
-                        <option value="Haryana">Haryana</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Maharasta">Maharasta</option>
+                        <option value="Haryana" <?php echo $isSelected[0]; ?>>Haryana</option>
+                        <option value="Punjab" <?php echo $isSelected[1]; ?>>Punjab</option>
+                        <option value="Gujarat" <?php echo $isSelected[2]; ?>>Gujarat</option>
+                        <option value="Maharasta" <?php echo $isSelected[3]; ?>>Maharasta</option>
                     </select>
                     <div class="same-line">
                         <label for="newsletter">Newsletter</label>
-                        <input type="checkbox" name="newsletter" value="yes">
+                        <input type="checkbox" name="newsletter" value="yes" <?php echo $isOpted; ?>>
                     </div>
                     <input type="submit" name="Create" value="Create" id="addButton">
                 </form>

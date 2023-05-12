@@ -23,7 +23,7 @@ header a {
 
 header a:hover {
   text-decoration: none;
-  color: inherit
+  color: inherit;
 }
 
 header a:visited {
@@ -31,7 +31,7 @@ header a:visited {
   color: inherit;
 }
 
-header h1{
+header h1 {
   color: white;
 }
 
@@ -127,7 +127,7 @@ form select {
   margin-left: 10px;
 }
 
-form select{
+form select {
   width: 398px;
   height: 52px;
 }
@@ -139,8 +139,11 @@ form textarea {
 }
 
 form p {
-  margin-left: 10px;
   color: red;
+  margin: -14px 10px 5px 5px;
+  margin-left: 15px;
+  font-size: 15px;
+  font-weight: lighter;
 }
 
 form input[type="checkbox"] {
@@ -184,24 +187,33 @@ footer p {
   margin-top: -5px;
 }
 
-input:focus{
+input:focus {
   outline: none;
 }
 
-textarea:focus{
+textarea:focus {
   outline: none;
 }
 
-.top-components img{
+.top-components img {
   height: 30px;
   width: 30px;
   margin: 10px;
 }
 
-#backButton{
+#backButton {
   background-color: black;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
   margin-right: 10px;
+}
+
+.error-box {
+  color: red;
+  border: 0.5px solid red;
+}
+
+.radio-error {
+  color: red;
 }
