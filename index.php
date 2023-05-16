@@ -15,12 +15,12 @@ if (isset($_POST['Search'])) {
 		$sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees WHERE name LIKE '%$searchedText%' OR email LIKE '%$searchedText%' OR gender LIKE '%$searchedText%' OR address LIKE '%$searchedText%' OR city LIKE '%$searchedText%' OR state LIKE '%$searchedText%';";
 		$result = $conn->query($sql);
 		$user_data = $result->fetch_assoc();
-		if(empty($user_data)){
+		if (empty($user_data)) {
 			$searchflag = 1;
 		}
 	}
 } else {
-	$sql = "SELECT COUNT(*) FROM employees WHERE name IS NOT NULL";
+	$sql = "SELECT COUNT(*) FROM employees";
 	$result = $conn->query($sql);
 	$user_data = $result->fetch_assoc();
 	$entries = $user_data["COUNT(*)"];
@@ -76,8 +76,8 @@ if (isset($_POST['Search'])) {
 			</div>
 		</div>
 		<?php
-			if (empty($searchflag)) {
-		echo "<table>
+		if (empty($searchflag)) {
+			echo "<table>
 			<tr>
 				<th>Name</th>
 				<th>Email</th>
@@ -88,28 +88,28 @@ if (isset($_POST['Search'])) {
 				<th>Newsletter</th>
 				<th>Action</th>
 			</tr>";
-				do{
-					if ($user_data['newsletter'] == 1) {
-						$newsletter = "Yes";
-					} else {
-						$newsletter = "No";
-					}
-					if(empty($user_data['name'])){
-						continue;
-					}
-					echo "<tr>";
-					echo "<td>" . $user_data['name'] . "</td>";
-					echo "<td>" . $user_data['email'] . "</td>";
-					echo "<td>" . $user_data['gender'] . "</td>";
-					echo "<td>" . $user_data['address'] . "</td>";
-					echo "<td>" . $user_data['city'] . "</td>";
-					echo "<td>" . $user_data['state'] . "</td>";
-					echo "<td>" . $newsletter . "</td>";
-					echo "<td><a href='update.php?id=" . $user_data['id'] . "'><img src='assets/icons8-edit-30.png'></a><a href='delete.php?id=" . $user_data['id'] . "'><img src='assets/icons8-delete-24.png'></a></td>";
-					echo "</tr>";
-				}while(($user_data = $result->fetch_assoc()));
-			}
-			?>
+			do {
+				if ($user_data['newsletter'] == 1) {
+					$newsletter = "Yes";
+				} else {
+					$newsletter = "No";
+				}
+				if (empty($user_data['name'])) {
+					continue;
+				}
+				echo "<tr>";
+				echo "<td>" . $user_data['name'] . "</td>";
+				echo "<td>" . $user_data['email'] . "</td>";
+				echo "<td>" . $user_data['gender'] . "</td>";
+				echo "<td>" . $user_data['address'] . "</td>";
+				echo "<td>" . $user_data['city'] . "</td>";
+				echo "<td>" . $user_data['state'] . "</td>";
+				echo "<td>" . $newsletter . "</td>";
+				echo "<td><a href='update.php?id=" . $user_data['id'] . "'><img src='assets/icons8-edit-30.png'></a><a href='delete.php?id=" . $user_data['id'] . "'><img src='assets/icons8-delete-24.png'></a></td>";
+				echo "</tr>";
+			} while (($user_data = $result->fetch_assoc()));
+		}
+		?>
 		</table>
 		<?php
 		if ($searchflag == 1) {
