@@ -61,7 +61,7 @@ form select {
 
 .linksection {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 11px;
 }
@@ -196,4 +196,9 @@ select:invalid + label {
   display: flex;
   justify-content: space-around;
   color: lightgreen;
+}
+
+.linksection input[type="checkbox"]{
+  height: 15px;
+  width: 15px;
 }

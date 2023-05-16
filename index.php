@@ -88,7 +88,7 @@ if (isset($_POST['Search'])) {
 				<th>Newsletter</th>
 				<th>Action</th>
 			</tr>";
-				while ($user_data = $result->fetch_assoc()) {
+				do{
 					if ($user_data['newsletter'] == 1) {
 						$newsletter = "Yes";
 					} else {
@@ -107,7 +107,7 @@ if (isset($_POST['Search'])) {
 					echo "<td>" . $newsletter . "</td>";
 					echo "<td><a href='update.php?id=" . $user_data['id'] . "'><img src='assets/icons8-edit-30.png'></a><a href='delete.php?id=" . $user_data['id'] . "'><img src='assets/icons8-delete-24.png'></a></td>";
 					echo "</tr>";
-				}
+				}while(($user_data = $result->fetch_assoc()));
 			}
 			?>
 		</table>

@@ -3,7 +3,7 @@ body {
   color: rgba(58, 53, 65, 0.87);
   font-family: Arial;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 15px;
   letter-spacing: 0.15px;
   background-color: #f4f5fa;
 }
@@ -87,7 +87,7 @@ h1 {
 form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
   min-width: 0;
   padding: 0;
   margin: 0;
@@ -104,8 +104,7 @@ label {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: -1rem;
 }
 
 .notreq {
@@ -140,7 +139,7 @@ form textarea {
 
 form p {
   color: red;
-  margin: -14px 10px 5px 5px;
+  margin: -28px 10px 5px 5px;
   margin-left: 15px;
   font-size: 15px;
   font-weight: lighter;
@@ -149,6 +148,40 @@ form p {
 form input[type="checkbox"] {
   height: 15px;
   width: 15px;
+}
+
+.offset {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.offset label {
+  padding: 5px;
+  background: white;
+  width: fit-content;
+  height: max-content;
+  position: absolute;
+  transition: all 0.2s ease-in;
+}
+
+.offset input:focus + label,
+.offset input:empty + label {
+  font-size: small;
+  translate: 0 -1.5rem;
+}
+
+textarea:invalid + label,
+textarea:valid + label {
+  font-size: small;
+  translate: 0 -2.1rem;
+}
+
+select:focus + label,
+select:valid + label,
+select:invalid + label {
+  font-size: small;
+  translate: 0 -1.5rem;
 }
 
 #addButton {
@@ -168,6 +201,7 @@ form input[type="checkbox"] {
   border-radius: 5px;
   display: flex;
   justify-content: center;
+  margin-left: 5px;
 }
 
 footer {
@@ -209,11 +243,18 @@ textarea:focus {
   margin-right: 10px;
 }
 
-.error-box {
+.error-box label {
   color: red;
-  border: 0.5px solid red;
 }
 
 .radio-error {
   color: red;
+}
+
+.error-box input[type="text"],
+.error-box [type="email"],
+.error-box input[type="password"],
+.error-box textarea{
+  color: red;
+  border: 0.5px solid red;
 }

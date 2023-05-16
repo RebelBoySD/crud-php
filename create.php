@@ -32,11 +32,11 @@ if (isset($_POST['Create'])) {
 
     $errcnt = 0;
     if (empty($name)) {
-        $message1 = "Please enter the name";
+        $message1 = "Please enter a name";
         $errcnt++;
     }
     if (empty($email)) {
-        $message2 = "Please enter the email";
+        $message2 = "Please enter an email";
         $errcnt++;
     }
     if (!email_validation($email)) {
@@ -44,14 +44,15 @@ if (isset($_POST['Create'])) {
         $errcnt++;
     }
     if (empty($gender)) {
-        $message4 = "Please select the gender";
+        $message4 = "Please select a gender";
+        $errcnt++;
     }
     if (empty($address)) {
-        $message5 = "Please enter the address";
+        $message5 = "Please enter an address";
         $errcnt++;
     }
     if (empty($city)) {
-        $message6 = "Please enter the city";
+        $message6 = "Please enter a city";
         $errcnt++;
     }
     if ($errcnt == 0) {
@@ -93,10 +94,10 @@ if (isset($_POST['Create'])) {
             <div class="form">
                 <form action="create.php" name="create_page" method="post">
                     <?php
-                    if ($gender === "Male") {
+                    if ($gender == "Male") {
                         $isMale = 'checked';
                     }
-                    if ($gender === "Female") {
+                    if ($gender == "Female") {
                         $isFemale = 'checked';
                     }
 
@@ -117,7 +118,9 @@ if (isset($_POST['Create'])) {
                     <?php if (!empty($message1)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="name">Name</label><input type="text" name="name" <?php echo "value='$name'" ?> required>
+                    <div class="offset">
+                    <input type="text" name="name" <?php echo "value='$name'" ?> required><label for="name">Name</label>
+                </div>
                     <?php if (!empty($message1)) {
                         echo "</div>";
                     } ?>
@@ -127,8 +130,10 @@ if (isset($_POST['Create'])) {
                     <?php if (!empty($message2) || !empty($message3)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="email">Email</label><input type="email" name="email" <?php echo "value='$email'" ?>
-                        required>
+                    <div class="offset">
+                    <input type="email" name="email" <?php echo "value='$email'" ?>
+                        required><label for="email">Email</label>
+                    </div>
                     <?php if (!empty($message2) || !empty($message3)) {
                         echo "</div>";
                     } ?>
@@ -143,9 +148,9 @@ if (isset($_POST['Create'])) {
                     } ?>
                     <div class="same-line">
                         <label for="gender">Gender</label>
-                        <input type="radio" name="gender" value="male" <?php echo $isMale; ?>required>
+                        <input type="radio" name="gender" value="Male" <?php echo $isMale; ?> required>
                         <label for="Male" class="notreq">Male</label>
-                        <input type="radio" name="gender" value="female" <?php echo $isFemale; ?>>
+                        <input type="radio" name="gender" value="Female" <?php echo $isFemale; ?>>
                         <label for="Female" class="notreq">Female</label>
                     </div>
                     <?php if (!empty($message4)) {
@@ -157,7 +162,9 @@ if (isset($_POST['Create'])) {
                     <?php if (!empty($message5)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="address">Address</label><textarea name="address" <?php echo "value='$address'" ?>></textarea>
+                    <div class="offset">
+                    <textarea name="address"><?php echo $address ?></textarea><label for="address">Address</label>
+                    </div>
                     <?php if (!empty($message5)) {
                         echo "</div>";
                     } ?>
@@ -167,20 +174,24 @@ if (isset($_POST['Create'])) {
                     <?php if (!empty($message6)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="city">City</label><input type="text" name="city" <?php echo "value='$city'" ?>>
+                    <div class="offset">
+                    <input type="text" name="city" <?php echo "value='$city'" ?>><label for="city">City</label>
+                    </div>
                     <?php if (!empty($message6)) {
                         echo "</div>";
                     } ?>
                     <?php if (!empty($message6)) {
                         echo "<p>" . $message6 . "</p>";
                     } ?>
-                    <label for="state">State</label>
+                    <div class="offset">
                     <select name="state">
                         <option value="Haryana" <?php echo $isSelected[0]; ?>>Haryana</option>
                         <option value="Punjab" <?php echo $isSelected[1]; ?>>Punjab</option>
                         <option value="Gujarat" <?php echo $isSelected[2]; ?>>Gujarat</option>
                         <option value="Maharasta" <?php echo $isSelected[3]; ?>>Maharasta</option>
                     </select>
+                    <label for="state">State</label>
+                    </div>
                     <div class="same-line">
                         <label for="newsletter">Newsletter</label>
                         <input type="checkbox" name="newsletter" value="yes" <?php echo $isOpted; ?>>

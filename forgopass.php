@@ -21,7 +21,7 @@ if (isset($_POST['Recover'])) {
             $message1 = "Email Address doesn't exists!";
         }
     } else {
-        $message2 = "Please enter the email";
+        $message2 = "Please enter an email";
     }
 
 }

@@ -34,7 +34,7 @@ if (isset($_POST['Reset'])) {
         $errcnt++;
     }
     if ($password == "") {
-        $message3 = "Please enter any text";
+        $message3 = "Please enter a password";
         $errcnt++;
     }
     if (!password_validation($password)) {
@@ -42,7 +42,7 @@ if (isset($_POST['Reset'])) {
         $errcnt++;
     }
     if ($conpassword == "") {
-        $message5 = "Please enter any text";
+        $message5 = "Please enter a password";
         $errcnt++;
     }
     if (!($password === $conpassword)) {

@@ -35,7 +35,7 @@ if (isset($_POST['Signup'])) {
         $errcnt++;
     }
     if ($email == "") {
-        $message2 = "Please enter any email address";
+        $message2 = "Please enter an email address";
         $errcnt++;
     }
     if (!email_validation($email)) {
@@ -43,7 +43,7 @@ if (isset($_POST['Signup'])) {
         $errcnt++;
     }
     if ($password == "") {
-        $message4 = "Please enter any password";
+        $message4 = "Please enter a password";
         $errcnt++;
     }
     if (!password_validation($password)) {
@@ -51,7 +51,7 @@ if (isset($_POST['Signup'])) {
         $errcnt++;
     }
     if ($password == "") {
-        $message6 = "Please enter any text";
+        $message6 = "Please enter a password";
         $errcnt++;
     }
     if (!($password === $conpassword)) {
@@ -59,7 +59,7 @@ if (isset($_POST['Signup'])) {
         $errcnt++;
     }
     if ($answer == "") {
-        $message8 = "Please write any answer";
+        $message8 = "Please write a answer";
         $errcnt++;
     }
 

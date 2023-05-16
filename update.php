@@ -85,12 +85,11 @@ if (isset($_POST['Update'])) {
     </header>
     <?php
 
-    $id = $_REQUEST['id'];
-    $sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees WHERE id = $id";
-    $result = $conn->query($sql);
-    $user_data = $result->fetch_assoc();
-
     if ($errcnt == 0) {
+        $id = $_REQUEST['id'];
+        $sql = "SELECT id,name,email,gender,address,city,state,newsletter from employees WHERE id = $id";
+        $result = $conn->query($sql);
+        $user_data = $result->fetch_assoc();
         $id = $user_data['id'];
         $name = $user_data['name'];
         $email = $user_data['email'];
@@ -104,12 +103,23 @@ if (isset($_POST['Update'])) {
         } else {
             $newsletter = 0;
         }
-    }
+    } 
+    // else {
+    //     var_dump($id);
+    //     var_dump($name);
+    //     var_dump($email);
+    //     var_dump($gender);
+    //     var_dump($address);
+    //     var_dump($city);
+    //     var_dump($state);
+    //     var_dump($newsletter);
+    //     die();
+    // }
 
-    if ($gender === "Male") {
+    if ($gender == "Male") {
         $isMale = 'checked';
     }
-    if ($gender === "Female") {
+    if ($gender == "Female") {
         $isFemale = 'checked';
     }
 
@@ -140,7 +150,10 @@ if (isset($_POST['Update'])) {
                     <?php if (!empty($message1)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="name">Name</label><input type="text" name="name" value="<?php echo $name; ?>" required>
+                    <div class="offset">
+                        <input type="text" name="name" value="<?php echo $name; ?>" required><label
+                            for="name">Name</label>
+                    </div>
                     <?php if (!empty($message1)) {
                         echo "</div>";
                     } ?>
@@ -150,8 +163,10 @@ if (isset($_POST['Update'])) {
                     <?php if (!empty($message2) || !empty($message3)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="email">Email</label><input type="email" name="email" value="<?php echo $email; ?>"
-                        required>
+                    <div class="offset">
+                        <input type="email" name="email" value="<?php echo $email; ?>" required><label
+                            for="email">Email</label>
+                    </div>
                     <?php if (!empty($message2) || !empty($message3)) {
                         echo "</div>";
                     } ?>
@@ -179,7 +194,9 @@ if (isset($_POST['Update'])) {
                     <?php if (!empty($message5)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="address">Address</label><textarea name="address"><?php echo $address; ?></textarea>
+                    <div class="offset">
+                        <textarea name="address"><?php echo $address; ?></textarea><label for="address">Address</label>
+                    </div>
                     <?php if (!empty($message5)) {
                         echo "</div>";
                     } ?>
@@ -189,20 +206,24 @@ if (isset($_POST['Update'])) {
                     <?php if (!empty($message6)) {
                         echo "<div class='error-box'>";
                     } ?>
-                    <label for="city">City</label><input type="text" name="city" value="<?php echo $city; ?>">
+                    <div class="offset">
+                        <input type="text" name="city" value="<?php echo $city; ?>"><label for="city">City</label>
+                    </div>
                     <?php if (!empty($message6)) {
                         echo "</div>";
                     } ?>
                     <?php if (!empty($message6)) {
                         echo "<p>" . $message6 . "</p>";
                     } ?>
-                    <label for="state">State</label>
-                    <select name="state">
-                        <option value="Haryana" <?php echo $isSelected[0]; ?>>Haryana</option>
-                        <option value="Punjab" <?php echo $isSelected[1]; ?>>Punjab</option>
-                        <option value="Gujarat" <?php echo $isSelected[2]; ?>>Gujarat</option>
-                        <option value="Maharasta" <?php echo $isSelected[3]; ?>>Maharasta</option>
-                    </select>
+                    <div class="offset">
+                        <select name="state">
+                            <option value="Haryana" <?php echo $isSelected[0]; ?>>Haryana</option>
+                            <option value="Punjab" <?php echo $isSelected[1]; ?>>Punjab</option>
+                            <option value="Gujarat" <?php echo $isSelected[2]; ?>>Gujarat</option>
+                            <option value="Maharasta" <?php echo $isSelected[3]; ?>>Maharasta</option>
+                        </select>
+                        <label for="state">State</label>
+                    </div>
                     <div class="same-line">
                         <label for="newsletter">Newsletter</label>
                         <input type="checkbox" name="newsletter" value="yes" <?php echo $isOpted; ?>>
